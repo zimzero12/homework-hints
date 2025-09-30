@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homework Hints</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    input, select, button, #hint { width: 100%; padding: 10px; margin: 10px 0; }
+    #hint { background: #f0f8ff; border-left: 4px solid #4a90e2; }
+  </style>
+</head>
+<body>
+  <h1>🧠 Homework Hints</h1>
+  <p>Get a smart hint — not the answer!</p>
+  
+  <input type="text" id="question" placeholder="Type your homework question...">
+  <select id="subject">
+    <option value="Math">Math</option>
+    <option value="Physics">Physics</option>
+    <option value="Chemistry">Chemistry</option>
+    <option value="Biology">Biology</option>
+    <option value="Other">Other</option>
+  </select>
+  <button onclick="getHint()">Get Hint</button>
+  
+  <div id="hint"></div>
+
+  <script>
+    async function getHint() {
+      const q = document.getElementById("question").value;
+      const s = document.getElementById("subject").value;
+      if (!q) return alert("Please enter a question!");
+      
+      document.getElementById("hint").innerText = "Thinking...";
+      
+      // 🔥 We'll add real AI here in Step 2
+      const response = await fetch("/api/hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: q, subject: s })
+      });
+      const data = await response.json();
+      document.getElementById("hint").innerText = data.hint || "Try again!";
+    }
+  </script>
+</body>
+</html>
